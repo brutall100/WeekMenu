@@ -8,7 +8,7 @@ const LoadingSpinner = ({ loading, size = 200 }) => {
     </div>
   );
 };
-
+// rounded better than square
 export default LoadingSpinner;
 
 
