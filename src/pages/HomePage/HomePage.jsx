@@ -1,36 +1,54 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; 
 import styles from "./HomePage.module.scss";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import AddCategoryForm from "../../forms/CategoryForm//AddCategoryForm";
+import AddCategoryForm from "../../forms/CategoryForm/AddCategoryForm";
+import { API_URL } from "../../utils/api";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Sveiki atvykę į savaitės maisto plano sistemą!");
-  const [categories, setCategories] = useState([
-    "Diabetikams",
-    "Nėščiosioms",
-    "Sportininkams",
-    "Nutukusiems",
-    "Vaikams",
-    "Vegetarams",
-    "Be glitimo",
-    "Keto",
-    "Pagyvenusiems",
-    "Alergiškiems",
-  ]);
-  const [showForm, setShowForm] = useState(false); // Valdo formos rodymą
+  const [categories, setCategories] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${API_URL}/categories`); 
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data); // Grąžiname visus kategorijos objektus
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchCategories();
   }, []);
 
-  const handleAddCategory = (newCategory) => {
-    setCategories([...categories, newCategory]);
-    setShowForm(false); // Paslėpti formą po pridėjimo
+  const handleAddCategory = async (newCategory) => {
+    try {
+      const response = await fetch(`${API_URL}/categories`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategory }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add category");
+      }
+
+      const newCategoryData = await response.json();
+      setCategories([...categories, newCategoryData]);
+    } catch (error) {
+      console.error("Error adding category:", error);
+    } finally {
+      setShowForm(false); 
+    }
   };
 
   if (loading) {
@@ -53,10 +71,12 @@ const HomePage = () => {
       <div className={styles.categories}>
         <h2>Pasirinkite kategoriją</h2>
         <div className={styles.grid}>
-          {categories.map((category, index) => (
-            <div key={index} className={styles.card}>
-              <h3>{category}</h3>
-            </div>
+          {categories.map((category) => (
+            <Link key={category._id} to={`/categories/${category._id}`} className={styles.card}>
+              <div>
+                <h3>{category.name}</h3>
+              </div>
+            </Link>
           ))}
         </div>
 
@@ -78,4 +98,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
 
