@@ -1,0 +1,24 @@
+.dayCard {
+    background: rgb(238, 238, 210);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+  
+    h2 {
+      color: #6a11cb;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+  
+    .mealCard {
+      margin-top: 10px;
+    }
+  }
+  
