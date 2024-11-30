@@ -3,11 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import HomePage from "./pages/HomePage/HomePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
+import WeekPlanPage from "./pages/WeekPlanPage/WeekPlanPage";
 import MealPage from "./pages/MealPage/MealPage";
 import AllMealsPage from "./pages/AllMealsPage/AllMealsPage";
 import StoriesPage from "./pages/StoriesPage/StoriesPage";
-import { StoriesProvider } from "./context/StoriesContext"; // Import StoriesProvider
+import { StoriesProvider } from "./context/StoriesContext"; 
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={<ErrorPage />} />
           <Route path="/stories" element={<StoriesPage />} />
-          <Route path="/categories/:id" element={<CategoryPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/categories/:id" element={<WeekPlanPage />} />
           <Route path="/meals" element={<AllMealsPage />} />
           <Route path="/meals/:id" element={<MealPage />} />
         </Routes>

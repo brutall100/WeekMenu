@@ -1,8 +1,9 @@
 .header {
-  background-color: #6a11cb;
-  background: linear-gradient(to right, #6a11cb, #2575fc);
-  padding: 15px 20px;
+  background-color: #FAF6E3; /* Light background */
+  background: linear-gradient(to right, #FAF6E3, #D8DBBD); /* Subtle gradient */
+  padding: 30px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #B59F78;
 }
 
 .nav {
@@ -22,23 +23,25 @@
 .navLink {
   text-decoration: none;
   font-size: 1rem;
-  color: white;
-  padding: 5px 10px;
+  color: #2A3663; /* Dark Blue for text */
+  padding: 8px 15px;
   border-radius: 4px;
+  font-weight: bold;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    background-color: #B59F78; /* Muted brown for hover */
+    color: #FAF6E3; /* Light background for hover text */
     text-decoration: none;
   }
 }
 
 .activeLink {
-  background-color: #ffffff;
-  color: #6a11cb;
+  background-color: #B59F78; /* Muted brown */
+  color: #FAF6E3; /* Light background for active text */
   font-weight: bold;
-  padding: 5px 10px;
+  padding: 8px 15px;
   border-radius: 4px;
+  border: 1px solid #2A3663; /* Subtle border for active link */
 }
 
