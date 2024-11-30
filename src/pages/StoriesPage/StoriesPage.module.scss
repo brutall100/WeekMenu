@@ -1,74 +1,176 @@
 .storiesPage {
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: "Arial", sans-serif;
+    background-color: #FAF6E3;
+    color: #2A3663;
   
     h1 {
+      text-align: center;
+      color: #2A3663;
       font-size: 2rem;
       margin-bottom: 20px;
     }
   
     .newStoryForm {
-      margin-bottom: 30px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      background: #D8DBBD;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+      h2 {
+        color: #2A3663;
+        text-align: center;
+        margin-bottom: 15px;
+      }
   
       input,
       textarea {
         display: block;
-        width: 100%;
-        margin-bottom: 10px;
+        width: 96%;
+        margin-bottom: 15px;
         padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        font-size: 16px;
+        border: 1px solid #B59F78;
+        border-radius: 4px;
+        background-color: #FAF6E3;
+        color: #2A3663;
+  
+        &:focus {
+          outline: none;
+          border-color: #2A3663;
+        }
       }
+
+      .editForm {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      
+        input,
+        textarea {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #b59f78;
+          border-radius: 4px;
+          background-color: #faf6e3;
+          color: #2a3663;
+          font-size: 16px;
+      
+          &:focus {
+            outline: none;
+            border-color: #2a3663;
+          }
+        }
+      
+        .buttons {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+      
+          button {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #faf6e3;
+            background-color: #2a3663;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+      
+            &:hover {
+              background-color: #b59f78;
+            }
+          }
+        }
+      }
+      
   
       button {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: #fff;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: #FAF6E3;
+        background-color: #2A3663;
         border: none;
-        border-radius: 5px;
+        border-radius: 4px;
         cursor: pointer;
-      }
+        font-weight: bold;
   
-      button:hover {
-        background-color: #0056b3;
+        &:hover {
+          background-color: #B59F78;
+        }
       }
     }
   
     .storiesList {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      justify-content: center;
+      align-items: center; 
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
   
       .storyCard {
+        background: #FFFFFF;
+        border: 1px solid #B59F78;
+        border-radius: 8px;
         padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #f9f9f9;
+        max-width: 300px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   
         h3 {
-          margin: 0 0 10px;
+          color: #2A3663;
+          font-size: 1.2rem;
+          margin-bottom: 10px;
         }
   
         p {
-          margin: 0 0 10px;
+          color: #2A3663;
+          margin-bottom: 20px;
+          line-height: 1.6;
         }
   
-        button {
-          margin-right: 10px;
-          padding: 5px 10px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
+        .buttons {
+          margin-top: auto;
+          display: flex;
+          justify-content: space-between;
   
-        button:nth-child(2) {
-          background-color: red;
-          color: #fff;
-        }
+          button {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #868376;
+            background-color: #2A3663;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
   
-        button:hover {
-          opacity: 0.9;
+            &:hover {
+              background-color: #B59F78;
+            }
+  
+            &:last-child {
+              background-color: #D8DBBD;
+  
+              &:hover {
+                background-color: #B59F78;
+              }
+            }
+          }
         }
+      }
+    }
+  
+    @media (min-width: 1300px) {
+      .storiesList {
+        grid-template-columns: repeat(4, 1fr); /* Maksimaliai 4 kortelės vienoje eilėje */
       }
     }
   }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { API_URL } from "../../utils/api";
 import styles from "./StoriesPage.module.scss";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
@@ -6,7 +8,11 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 const StoriesPage = () => {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newStory, setNewStory] = useState({ title: "", content: "" });
+  const [newStory, setNewStory] = useState({
+    title: "",
+    content: "",
+    author: "",
+  });
   const [editingStory, setEditingStory] = useState(null);
 
   // Fetch all stories from the database
@@ -18,7 +24,9 @@ const StoriesPage = () => {
           throw new Error("Failed to fetch stories");
         }
         const data = await response.json();
-        const sortedStories = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const sortedStories = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setStories(sortedStories);
       } catch (error) {
         console.error("Error fetching stories:", error);
@@ -32,8 +40,8 @@ const StoriesPage = () => {
 
   // Add a new story
   const handleAddStory = async () => {
-    if (!newStory.title || !newStory.content) {
-      alert("Pavadinimas ir turinys yra būtini!");
+    if (!newStory.title || !newStory.content || !newStory.author) {
+      toast.error("Visi laukai yra būtini!");
       return;
     }
 
@@ -45,14 +53,16 @@ const StoriesPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add story");
+        throw new Error("Nepavyko pridėti istorijos");
       }
 
       const savedStory = await response.json();
       setStories((prevStories) => [savedStory, ...prevStories]);
-      setNewStory({ title: "", content: "" });
+      setNewStory({ title: "", content: "", author: "" });
+      toast.success("Istorija sėkmingai pridėta!");
     } catch (error) {
       console.error("Error adding story:", error);
+      toast.error("Nepavyko pridėti istorijos.");
     }
   };
 
@@ -67,16 +77,20 @@ const StoriesPage = () => {
         throw new Error("Failed to delete story");
       }
 
-      setStories((prevStories) => prevStories.filter((story) => story._id !== id));
+      setStories((prevStories) =>
+        prevStories.filter((story) => story._id !== id)
+      );
+      toast.success("Istorija sėkmingai ištrinta!");
     } catch (error) {
       console.error("Error deleting story:", error);
+      toast.error("Nepavyko ištrinti istorijos.");
     }
   };
 
   // Edit a story
   const handleEditStory = async () => {
-    if (!editingStory.title || !editingStory.content) {
-      alert("Pavadinimas ir turinys yra būtini!");
+    if (!editingStory.title || !editingStory.content || !editingStory.author) {
+      toast.error("Pavadinimas, turinys ir autorius yra būtini!");
       return;
     }
 
@@ -87,11 +101,12 @@ const StoriesPage = () => {
         body: JSON.stringify({
           title: editingStory.title,
           content: editingStory.content,
+          author: editingStory.author,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update story");
+        throw new Error("Nepavyko atnaujinti istorijos");
       }
 
       const updatedStory = await response.json();
@@ -101,8 +116,10 @@ const StoriesPage = () => {
         )
       );
       setEditingStory(null);
+      toast.success("Istorija sėkmingai atnaujinta!");
     } catch (error) {
       console.error("Error editing story:", error);
+      toast.error("Nepavyko atnaujinti istorijos.");
     }
   };
 
@@ -117,23 +134,40 @@ const StoriesPage = () => {
   return (
     <div className={styles.storiesPage}>
       <h1>Vartotojų sėkmės istorijos</h1>
-
+      <ToastContainer position="top-right" autoClose={3000} />
       {/* Form to add a new story */}
       <div className={styles.newStoryForm}>
         <h2>Pridėti naują istoriją</h2>
         <input
           type="text"
+          placeholder="Autorius"
+          value={newStory.author}
+          onChange={(e) =>
+            setNewStory((prev) => ({
+              ...prev,
+              author: e.target.value,
+            }))
+          }
+        />
+        <input
+          type="text"
           placeholder="Pavadinimas"
           value={newStory.title}
           onChange={(e) =>
-            setNewStory((prev) => ({ ...prev, title: e.target.value }))
+            setNewStory((prev) => ({
+              ...prev,
+              title: e.target.value,
+            }))
           }
         />
         <textarea
           placeholder="Turinys"
           value={newStory.content}
           onChange={(e) =>
-            setNewStory((prev) => ({ ...prev, content: e.target.value }))
+            setNewStory((prev) => ({
+              ...prev,
+              content: e.target.value,
+            }))
           }
         />
         <button onClick={handleAddStory}>Pridėti</button>
@@ -144,10 +178,22 @@ const StoriesPage = () => {
         {stories.map((story) => (
           <div key={story._id} className={styles.storyCard}>
             {editingStory && editingStory._id === story._id ? (
-              <>
+              <div className={styles.editForm}>
+                <input
+                  type="text"
+                  value={editingStory.author || ""}
+                  placeholder="Autorius"
+                  onChange={(e) =>
+                    setEditingStory((prev) => ({
+                      ...prev,
+                      author: e.target.value,
+                    }))
+                  }
+                />
                 <input
                   type="text"
                   value={editingStory.title}
+                  placeholder="Pavadinimas"
                   onChange={(e) =>
                     setEditingStory((prev) => ({
                       ...prev,
@@ -157,6 +203,7 @@ const StoriesPage = () => {
                 />
                 <textarea
                   value={editingStory.content}
+                  placeholder="Turinys"
                   onChange={(e) =>
                     setEditingStory((prev) => ({
                       ...prev,
@@ -164,15 +211,28 @@ const StoriesPage = () => {
                     }))
                   }
                 />
-                <button onClick={handleEditStory}>Išsaugoti</button>
-                <button onClick={() => setEditingStory(null)}>Atšaukti</button>
-              </>
+                <div className={styles.buttons}>
+                  <button onClick={handleEditStory}>Išsaugoti</button>
+                  <button onClick={() => setEditingStory(null)}>
+                    Atšaukti
+                  </button>
+                </div>
+              </div>
             ) : (
               <>
                 <h3>{story.title}</h3>
                 <p>{story.content}</p>
-                <button onClick={() => setEditingStory(story)}>Redaguoti</button>
-                <button onClick={() => handleDeleteStory(story._id)}>Ištrinti</button>
+                <p>
+                  <strong>Autorius:</strong> {story.author || "Nežinomas"}
+                </p>
+                <div className={styles.buttons}>
+                  <button onClick={() => setEditingStory(story)}>
+                    Redaguoti
+                  </button>
+                  <button onClick={() => handleDeleteStory(story._id)}>
+                    Ištrinti
+                  </button>
+                </div>
               </>
             )}
           </div>
@@ -183,9 +243,3 @@ const StoriesPage = () => {
 };
 
 export default StoriesPage;
-
-
-
-
-
-
