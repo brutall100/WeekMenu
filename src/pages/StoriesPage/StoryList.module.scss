@@ -1,0 +1,12 @@
+.storyList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch; 
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+  
