@@ -1,0 +1,62 @@
+/* WeekPlanPage.module.scss */
+
+.categoryPage {
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background */
+    min-height: 100vh; /* Ensure it spans the full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    h1 {
+      font-size: 2rem;
+      color: #333; /* Dark text */
+      margin-bottom: 20px;
+    }
+  }
+  
+  .spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Center spinner vertically */
+    background-color: #ffffff; /* Optional, adds a plain background */
+  }
+  
+  .dayList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Spacing between cards */
+    width: 100%;
+    max-width: 1200px; /* Limit grid width */
+    margin-top: 20px;
+  }
+  
+  .dayPlanCard {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+  
+    .cardContent {
+      padding: 15px;
+  
+      .dayName {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+  
+      .mealName {
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+  }
+  

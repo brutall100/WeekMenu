@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useStories } from "../../context/StoriesContext";
 import { API_URL } from "../../utils/api";
-import styles from "./StoriesPage.module.scss";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import StoryForm from "../../forms/StoryForm/StoryForm";
+import StoryList from "./../StoriesPage/StoryList";
+import styles from "./StoriesPage.module.scss";
 
 const StoriesPage = () => {
-  const [stories, setStories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [newStory, setNewStory] = useState({
-    title: "",
-    content: "",
-    author: "",
-  });
+  const { state, dispatch } = useStories();
   const [editingStory, setEditingStory] = useState(null);
 
-  // Fetch all stories from the database
   useEffect(() => {
     const fetchStories = async () => {
       try {
@@ -27,24 +23,18 @@ const StoriesPage = () => {
         const sortedStories = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setStories(sortedStories);
+        dispatch({ type: "SET_STORIES", payload: sortedStories });
       } catch (error) {
         console.error("Error fetching stories:", error);
       } finally {
-        setLoading(false);
+        dispatch({ type: "SET_LOADING", payload: false });
       }
     };
 
     fetchStories();
-  }, []);
+  }, [dispatch]);
 
-  // Add a new story
-  const handleAddStory = async () => {
-    if (!newStory.title || !newStory.content || !newStory.author) {
-      toast.error("Visi laukai yra būtini!");
-      return;
-    }
-
+  const handleAddStory = async (newStory) => {
     try {
       const response = await fetch(`${API_URL}/stories`, {
         method: "POST",
@@ -53,12 +43,11 @@ const StoriesPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Nepavyko pridėti istorijos");
+        throw new Error("Failed to add story");
       }
 
       const savedStory = await response.json();
-      setStories((prevStories) => [savedStory, ...prevStories]);
-      setNewStory({ title: "", content: "", author: "" });
+      dispatch({ type: "ADD_STORY", payload: savedStory });
       toast.success("Istorija sėkmingai pridėta!");
     } catch (error) {
       console.error("Error adding story:", error);
@@ -66,7 +55,6 @@ const StoriesPage = () => {
     }
   };
 
-  // Delete a story
   const handleDeleteStory = async (id) => {
     try {
       const response = await fetch(`${API_URL}/stories/${id}`, {
@@ -77,9 +65,7 @@ const StoriesPage = () => {
         throw new Error("Failed to delete story");
       }
 
-      setStories((prevStories) =>
-        prevStories.filter((story) => story._id !== id)
-      );
+      dispatch({ type: "DELETE_STORY", payload: id });
       toast.success("Istorija sėkmingai ištrinta!");
     } catch (error) {
       console.error("Error deleting story:", error);
@@ -87,34 +73,23 @@ const StoriesPage = () => {
     }
   };
 
-  // Edit a story
-  const handleEditStory = async () => {
-    if (!editingStory.title || !editingStory.content || !editingStory.author) {
-      toast.error("Pavadinimas, turinys ir autorius yra būtini!");
-      return;
-    }
-
+  const handleEditStory = async (updatedStory) => {
     try {
-      const response = await fetch(`${API_URL}/stories/${editingStory._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: editingStory.title,
-          content: editingStory.content,
-          author: editingStory.author,
-        }),
-      });
+      const response = await fetch(
+        `${API_URL}/stories/${updatedStory._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedStory),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error("Nepavyko atnaujinti istorijos");
+        throw new Error("Failed to update story");
       }
 
-      const updatedStory = await response.json();
-      setStories((prevStories) =>
-        prevStories.map((story) =>
-          story._id === updatedStory._id ? updatedStory : story
-        )
-      );
+      const savedStory = await response.json();
+      dispatch({ type: "EDIT_STORY", payload: savedStory });
       setEditingStory(null);
       toast.success("Istorija sėkmingai atnaujinta!");
     } catch (error) {
@@ -123,10 +98,10 @@ const StoriesPage = () => {
     }
   };
 
-  if (loading) {
+  if (state.loading) {
     return (
       <div className={styles.spinnerContainer}>
-        <LoadingSpinner loading={loading} />
+        <LoadingSpinner />
       </div>
     );
   }
@@ -135,111 +110,17 @@ const StoriesPage = () => {
     <div className={styles.storiesPage}>
       <h1>Vartotojų sėkmės istorijos</h1>
       <ToastContainer position="top-right" autoClose={3000} />
-      {/* Form to add a new story */}
-      <div className={styles.newStoryForm}>
-        <h2>Pridėti naują istoriją</h2>
-        <input
-          type="text"
-          placeholder="Autorius"
-          value={newStory.author}
-          onChange={(e) =>
-            setNewStory((prev) => ({
-              ...prev,
-              author: e.target.value,
-            }))
-          }
-        />
-        <input
-          type="text"
-          placeholder="Pavadinimas"
-          value={newStory.title}
-          onChange={(e) =>
-            setNewStory((prev) => ({
-              ...prev,
-              title: e.target.value,
-            }))
-          }
-        />
-        <textarea
-          placeholder="Turinys"
-          value={newStory.content}
-          onChange={(e) =>
-            setNewStory((prev) => ({
-              ...prev,
-              content: e.target.value,
-            }))
-          }
-        />
-        <button onClick={handleAddStory}>Pridėti</button>
-      </div>
-
-      {/* Stories List */}
-      <div className={styles.storiesList}>
-        {stories.map((story) => (
-          <div key={story._id} className={styles.storyCard}>
-            {editingStory && editingStory._id === story._id ? (
-              <div className={styles.editForm}>
-                <input
-                  type="text"
-                  value={editingStory.author || ""}
-                  placeholder="Autorius"
-                  onChange={(e) =>
-                    setEditingStory((prev) => ({
-                      ...prev,
-                      author: e.target.value,
-                    }))
-                  }
-                />
-                <input
-                  type="text"
-                  value={editingStory.title}
-                  placeholder="Pavadinimas"
-                  onChange={(e) =>
-                    setEditingStory((prev) => ({
-                      ...prev,
-                      title: e.target.value,
-                    }))
-                  }
-                />
-                <textarea
-                  value={editingStory.content}
-                  placeholder="Turinys"
-                  onChange={(e) =>
-                    setEditingStory((prev) => ({
-                      ...prev,
-                      content: e.target.value,
-                    }))
-                  }
-                />
-                <div className={styles.buttons}>
-                  <button onClick={handleEditStory}>Išsaugoti</button>
-                  <button onClick={() => setEditingStory(null)}>
-                    Atšaukti
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <h3>{story.title}</h3>
-                <p>{story.content}</p>
-                <p>
-                  <strong>Autorius:</strong> {story.author || "Nežinomas"}
-                </p>
-                <div className={styles.buttons}>
-                  <button onClick={() => setEditingStory(story)}>
-                    Redaguoti
-                  </button>
-                  <button onClick={() => handleDeleteStory(story._id)}>
-                    Ištrinti
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+      <StoryForm onSubmit={handleAddStory} />
+      <StoryList
+        stories={state.stories}
+        onEdit={handleEditStory}
+        onDelete={handleDeleteStory}
+        editingStory={editingStory}
+        setEditingStory={setEditingStory}
+      />
     </div>
   );
 };
 
 export default StoriesPage;
+

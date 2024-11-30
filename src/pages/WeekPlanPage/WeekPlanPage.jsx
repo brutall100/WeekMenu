@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../../utils/api";
-import styles from "./CategoryPage.module.scss";
+import styles from "./WeekPlanPage.module.scss";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import DayPlanCard from "../../components/DayPlanCard/DayPlanCard";
 import { CategoryContext, CategoryProvider } from "../../context/CategoryContext";
 
-const CategoryPage = () => {
+const WeekPlanPage = () => {
   const { id } = useParams();
   const [meals, setMeals] = useState([]);
   const [randomizedDays, setRandomizedDays] = useState([]);
@@ -79,7 +79,7 @@ const CategoryPageWithProvider = () => {
   const { id } = useParams();
   return (
     <CategoryProvider categoryId={id}>
-      <CategoryPage />
+      <WeekPlanPage />
     </CategoryProvider>
   );
 };
