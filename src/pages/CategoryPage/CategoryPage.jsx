@@ -65,7 +65,7 @@ const CategoryPage = () => {
 
   return (
     <div className={styles.categoryPage}>
-      <h1>Maisto planas : {categoryName}</h1>
+      <h1>Savaites maisto planas : {categoryName}</h1>
       <div className={styles.dayList}>
         {randomizedDays.map((dayPlan, index) => (
           <DayPlanCard key={index} day={dayPlan.day} meal={dayPlan.meal} />

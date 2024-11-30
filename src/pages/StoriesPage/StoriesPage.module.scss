@@ -1,0 +1,75 @@
+.storiesPage {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+  
+    .newStoryForm {
+      margin-bottom: 30px;
+  
+      input,
+      textarea {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+  
+      button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      button:hover {
+        background-color: #0056b3;
+      }
+    }
+  
+    .storiesList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+  
+      .storyCard {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+  
+        h3 {
+          margin: 0 0 10px;
+        }
+  
+        p {
+          margin: 0 0 10px;
+        }
+  
+        button {
+          margin-right: 10px;
+          padding: 5px 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+  
+        button:nth-child(2) {
+          background-color: red;
+          color: #fff;
+        }
+  
+        button:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+  

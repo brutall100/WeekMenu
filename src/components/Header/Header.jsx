@@ -14,7 +14,7 @@ const Header = () => {
                 isActive ? styles.activeLink : styles.navLink
               }
             >
-              Home
+              Pradinis
             </NavLink>
           </li>
           <li>
@@ -24,7 +24,7 @@ const Header = () => {
                 isActive ? styles.activeLink : styles.navLink
               }
             >
-              Stories
+              Istorijos
             </NavLink>
           </li>
           <li>
@@ -34,7 +34,7 @@ const Header = () => {
                 isActive ? styles.activeLink : styles.navLink
               }
             >
-              Meals
+              Patiekalai
             </NavLink>
           </li>
         </ul>
