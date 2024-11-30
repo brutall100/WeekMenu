@@ -7,6 +7,7 @@ import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
 import WeekPlanPage from "./pages/WeekPlanPage/WeekPlanPage";
 import MealPage from "./pages/MealPage/MealPage";
 import AllMealsPage from "./pages/AllMealsPage/AllMealsPage";
+import AllMealsByCategoryPage from "./pages/AllMealsByCategoryPage/AllMealsByCategoryPage";
 import StoriesPage from "./pages/StoriesPage/StoriesPage";
 import { StoriesProvider } from "./context/StoriesContext"; 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/categories/:id" element={<WeekPlanPage />} />
           <Route path="/meals" element={<AllMealsPage />} />
           <Route path="/meals/:id" element={<MealPage />} />
+          <Route path="/categories/:id/meals" element={<AllMealsByCategoryPage />} /> 
         </Routes>
       </StoriesProvider>
     </>
