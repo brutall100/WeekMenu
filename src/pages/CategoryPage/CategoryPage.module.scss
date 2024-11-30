@@ -1,53 +1,31 @@
 .categoryPage {
+    min-height: 100vh;
+    width: 100%; 
     padding: 20px;
+    font-family: Arial, sans-serif;
+    background-image: url('../../assets/img/soft.webp'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #ffffff;
   
     h1 {
       text-align: center;
-      color: #333;
+      color: #413e29; 
       margin-bottom: 20px;
-    }
-  }
-  
-  .spinnerContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .dayList {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .dayCard {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  
-    h2 {
-      color: #6a11cb;
-      margin-bottom: 10px;
+      font-size: 2rem;
+      text-shadow: 2px 2px 4px rgba(195, 193, 193, 0.7); 
     }
   
-    .mealCard {
-      background: #ffffff;
-      border: 1px solid #ccc;
-      padding: 15px;
-      border-radius: 5px;
-  
-      h3 {
-        margin: 0;
-        color: #333;
-      }
-  
-      p {
-        margin: 5px 0 0;
-        color: #555;
-      }
+    .dayList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.6); 
+      padding: 20px;
+      border-radius: 8px; 
     }
   }
   

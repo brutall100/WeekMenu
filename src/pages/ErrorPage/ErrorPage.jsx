@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ErrorPage.module.scss';
-import backgroundImage from '../../img/error.webp'; 
+import backgroundImage from '../../assets/img/error.webp'; 
 
 console.log(backgroundImage); 
 

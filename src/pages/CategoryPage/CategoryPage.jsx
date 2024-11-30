@@ -1,42 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../../utils/api";
 import styles from "./CategoryPage.module.scss";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import DayPlanCard from "../../components/DayPlanCard/DayPlanCard";
+import { CategoryContext, CategoryProvider } from "../../context/CategoryContext";
 
 const CategoryPage = () => {
   const { id } = useParams();
   const [meals, setMeals] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
   const [randomizedDays, setRandomizedDays] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { categoryName, loading: categoryLoading } = useContext(CategoryContext);
 
   useEffect(() => {
-    const fetchCategoryAndMeals = async () => {
+    const fetchMeals = async () => {
       try {
-        // Gauti kategorijos pavadinimą
-        const categoryResponse = await fetch(`${API_URL}/categories/${id}`);
-        if (!categoryResponse.ok) {
-          throw new Error("Failed to fetch category");
-        }
-        const categoryData = await categoryResponse.json();
-        setCategoryName(categoryData.name);
-
-        // Gauti patiekalus
-        const mealsResponse = await fetch(`${API_URL}/categories/${id}/meals`);
-        if (!mealsResponse.ok) {
-          throw new Error("Failed to fetch meals");
-        }
-        const mealsData = await mealsResponse.json();
-        setMeals(mealsData);
+        const response = await fetch(`${API_URL}/categories/${id}/meals`);
+        const data = await response.json();
+        setMeals(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching meals:", error);
       }
     };
 
-    fetchCategoryAndMeals();
+    fetchMeals();
   }, [id]);
 
   useEffect(() => {
@@ -68,37 +55,37 @@ const CategoryPage = () => {
     }
   }, [meals]);
 
-  if (loading) {
+  if (categoryLoading) {
     return (
       <div className={styles.spinnerContainer}>
-        <LoadingSpinner loading={loading} />
+        <LoadingSpinner loading={categoryLoading} />
       </div>
     );
   }
 
   return (
     <div className={styles.categoryPage}>
-      <h1>Maisto planas {categoryName && `: ${categoryName}`}</h1>
-      {randomizedDays.length === 0 ? (
-        <p>Nėra maisto plano šiai kategorijai.</p>
-      ) : (
-        <div className={styles.dayList}>
-          {randomizedDays.map((dayPlan, index) => (
-            <div key={index} className={styles.dayCard}>
-              <h2>{dayPlan.day}</h2>
-              <div className={styles.mealCard}>
-                <h3>{dayPlan.meal.name}</h3>
-                <p>{dayPlan.meal.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <h1>Savaites maisto planas : {categoryName}</h1>
+      <div className={styles.dayList}>
+        {randomizedDays.map((dayPlan, index) => (
+          <DayPlanCard key={index} day={dayPlan.day} meal={dayPlan.meal} />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default CategoryPage;
+const CategoryPageWithProvider = () => {
+  const { id } = useParams();
+  return (
+    <CategoryProvider categoryId={id}>
+      <CategoryPage />
+    </CategoryProvider>
+  );
+};
+
+export default CategoryPageWithProvider;
+
 
 
 

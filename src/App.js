@@ -4,6 +4,9 @@ import Header from "./components/Header/Header";
 import HomePage from "./pages/HomePage/HomePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import MealPage from "./pages/MealPage/MealPage"
+import AllMealsPage from "./pages/AllMealsPage/AllMealsPage"
+import StoriesPage from "./pages/StoriesPage/StoriesPage"
 
 function App() {
   return (
@@ -12,7 +15,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/stories" element={<StoriesPage />} />
         <Route path="/categories/:id" element={<CategoryPage />} />
+        <Route path="/meals" element={<AllMealsPage />} />
+        <Route path="/meals/:id" element={<MealPage />} />
       </Routes>
     </>
   );

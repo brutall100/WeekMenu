@@ -1,0 +1,33 @@
+.mealPage {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+  
+    p {
+      margin: 5px 0;
+    }
+  
+    .ingredientList {
+      margin-top: 20px;
+      padding: 0;
+      list-style-type: none;
+  
+      .ingredientItem {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+  
+        p {
+          margin: 2px 0;
+        }
+      }
+    }
+  }
+  
+  
