@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import { API_URL } from "../../utils/api";
 import styles from "./AllMealsPage.module.scss";
 import AddMealForm from "../../forms/MealForm/MealForm";
@@ -8,6 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 const AllMealsPage = () => {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -24,10 +25,10 @@ const AllMealsPage = () => {
         setLoading(false);
       }
     };
-
+  
     fetchMeals();
   }, []);
-
+  
   const handleAddMeal = async (mealData) => {
     try {
       const response = await fetch(`${API_URL}/meals`, {
@@ -35,16 +36,22 @@ const AllMealsPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(mealData),
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to add meal");
       }
-
-      const newMeal = await response.json();
-      setMeals((prevMeals) => [...prevMeals, newMeal]); // Add the new meal to the state
+  
+      const { meal } = await response.json(); 
+  
+      setMeals((prevMeals) => [...prevMeals, meal]);
     } catch (error) {
       console.error("Error adding meal:", error);
     }
+  };
+  
+
+  const handleCardClick = (mealId) => {
+    navigate(`/meals/${mealId}`); 
   };
 
   if (loading) {
@@ -59,17 +66,17 @@ const AllMealsPage = () => {
     <div className={styles.allMealsPage}>
       <h1>Visi patiekalai</h1>
 
-      {/* Add Meal Form */}
       <AddMealForm onAddMeal={handleAddMeal} />
 
       <div className={styles.mealsGrid}>
         {meals.map((meal) => (
-          <div key={meal._id} className={styles.mealCard}>
+          <div
+            key={meal._id}
+            className={styles.mealCard}
+            onClick={() => handleCardClick(meal._id)} 
+          >
             <h2>{meal.name}</h2>
             <p>{meal.description}</p>
-            <Link to={`/meals/${meal._id}`} className={styles.detailsLink}>
-              Plačiau
-            </Link>
           </div>
         ))}
       </div>
@@ -78,4 +85,5 @@ const AllMealsPage = () => {
 };
 
 export default AllMealsPage;
+
 
