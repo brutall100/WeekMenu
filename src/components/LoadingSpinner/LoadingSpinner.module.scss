@@ -2,37 +2,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; 
 }
 
 .gradientSpinner {
-  border: 10px solid transparent; 
-  border-top: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-left: 10px solid;
-  border-image: linear-gradient(to right, #6a11cb, #2575fc) 1;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  animation: spinBounceScale 2s ease-in-out infinite;
+  border: 8px solid transparent; 
+  border-top: 8px solid rgb(67, 118, 108); 
+  border-right: 8px solid rgb(42, 54, 99);
+  border-radius: 50%; 
+  width: 80px; 
+  height: 80px; 
+  animation: spin 1s linear infinite; 
 }
 
-@keyframes spinBounceScale {
+@keyframes spin {
   0% {
-    transform: rotate(0deg) scale(1) translateY(0);
-  }
-  25% {
-    transform: rotate(90deg) scale(1.1) translateY(-10px);
-  }
-  50% {
-    transform: rotate(180deg) scale(1) translateY(0);
-  }
-  75% {
-    transform: rotate(270deg) scale(1.1) translateY(10px);
+    transform: rotate(0deg); 
   }
   100% {
-    transform: rotate(360deg) scale(1) translateY(0);
+    transform: rotate(360deg); 
   }
 }
+
 
   
