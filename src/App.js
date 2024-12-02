@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import HomePage from "./pages/HomePage/HomePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/categories/:id/meals" element={<AllMealsByCategoryPage />} /> 
         </Routes>
       </StoriesProvider>
+      <Footer />
     </>
   );
 }

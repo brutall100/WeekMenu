@@ -1,7 +1,10 @@
 .header {
-  background-color: #FAF6E3; /* Light background */
-  background: linear-gradient(to right, #FAF6E3, #D8DBBD); /* Subtle gradient */
-  padding: 30px 20px;
+  position: sticky;
+  top: 0; 
+  z-index: 1000; 
+  background-color: #FAF6E3;
+  background: linear-gradient(to right, #FAF6E3, #D8DBBD); 
+  padding: 30px 15px; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-bottom: 2px solid #B59F78;
 }
@@ -23,25 +26,26 @@
 .navLink {
   text-decoration: none;
   font-size: 1rem;
-  color: #2A3663; /* Dark Blue for text */
+  color: #2A3663; 
   padding: 8px 15px;
   border-radius: 4px;
   font-weight: bold;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    background-color: #B59F78; /* Muted brown for hover */
-    color: #FAF6E3; /* Light background for hover text */
+    background-color: #B59F78; 
+    color: #FAF6E3; 
     text-decoration: none;
   }
 }
 
 .activeLink {
-  background-color: #B59F78; /* Muted brown */
-  color: #FAF6E3; /* Light background for active text */
+  background-color: #B59F78;
+  color: #FAF6E3;
   font-weight: bold;
   padding: 8px 15px;
   border-radius: 4px;
-  border: 1px solid #2A3663; /* Subtle border for active link */
+  border: 1px solid #2A3663; 
 }
+
 
