@@ -5,14 +5,13 @@ import { useStories } from "../../context/StoriesContext";
 import { API_URL } from "../../utils/api";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import StoryForm from "../../forms/StoryForm/StoryForm";
-import StoryList from "./../StoriesPage/StoryList";
+import StoryList from "../../components/StoryList/StoryList";
 import styles from "./StoriesPage.module.scss";
 
 const StoriesPage = () => {
   const { state, dispatch } = useStories();
   const [editingStory, setEditingStory] = useState(null);
-  const [pageLoading, setPageLoading] = useState(true); // State for page loading spinner
-
+  const [pageLoading, setPageLoading] = useState(true);
   useEffect(() => {
     const fetchStories = async () => {
       try {
@@ -29,7 +28,7 @@ const StoriesPage = () => {
         console.error("Error fetching stories:", error);
         toast.error("Nepavyko įkelti istorijų.");
       } finally {
-        setPageLoading(false); // Spinner hides after initial data load
+        setPageLoading(false); 
       }
     };
 
@@ -101,7 +100,6 @@ const StoriesPage = () => {
   };
 
   if (pageLoading) {
-    // Show spinner only during initial page load
     return (
       <div className={styles.spinnerContainer}>
         <LoadingSpinner />
