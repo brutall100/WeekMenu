@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { API_URL } from "../../utils/api"; 
+import { API_URL } from "../../utils/api";
 import styles from "./MealForm.module.scss";
 
 const AddMealForm = ({ onAddMeal }) => {
@@ -10,7 +10,6 @@ const AddMealForm = ({ onAddMeal }) => {
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
-    // Užkrauname kategorijas iš DB
     const fetchCategories = async () => {
       try {
         const response = await fetch(`${API_URL}/categories`);
@@ -55,9 +54,9 @@ const AddMealForm = ({ onAddMeal }) => {
 
   const handleCategoryChange = (categoryId) => {
     if (categoryIds.includes(categoryId)) {
-      setCategoryIds(categoryIds.filter((id) => id !== categoryId)); // Pašaliname iš sąrašo
+      setCategoryIds(categoryIds.filter((id) => id !== categoryId));
     } else {
-      setCategoryIds([...categoryIds, categoryId]); // Pridedame prie sąrašo
+      setCategoryIds([...categoryIds, categoryId]);
     }
   };
 
@@ -85,6 +84,7 @@ const AddMealForm = ({ onAddMeal }) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.mealForm}>
+      <h2>Pridėti naują patiekalą</h2>
       <input
         type="text"
         placeholder="Patiekalo pavadinimas"
@@ -96,81 +96,91 @@ const AddMealForm = ({ onAddMeal }) => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-
-      <label>Kategorijos:</label>
-      <div className={styles.categoryCheckboxes}>
-        {categories.map((category) => (
-          <div key={category._id} className={styles.checkboxWrapper}>
-            <input
-              type="checkbox"
-              id={`category-${category._id}`}
-              value={category._id}
-              checked={categoryIds.includes(category._id)}
-              onChange={() => handleCategoryChange(category._id)}
-            />
-            <label htmlFor={`category-${category._id}`}>{category.name}</label>
+      <div className={styles.categoriesSection}>
+        <label>Kategorijos:</label>
+        <div className={styles.categoryCheckboxes}>
+          {categories.map((category) => (
+            <div key={category._id} className={styles.checkboxWrapper}>
+              <input
+                type="checkbox"
+                id={`category-${category._id}`}
+                value={category._id}
+                checked={categoryIds.includes(category._id)}
+                onChange={() => handleCategoryChange(category._id)}
+              />
+              <label htmlFor={`category-${category._id}`}>{category.name}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.ingredientsSection}>
+        <label>Ingredientai:</label>
+        <button type="button" onClick={handleAddIngredient} className={styles.addIngredientButton}>
+          Pridėti ingredientą
+        </button>
+        {ingredients.map((ingredient, index) => (
+          <div key={index} className={styles.ingredientRow}>
+            <div className={styles.basicDetails}>
+              <input
+                type="text"
+                placeholder="Pavadinimas"
+                value={ingredient.name}
+                onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Kiekis"
+                value={ingredient.quantity}
+                onChange={(e) => handleIngredientChange(index, "quantity", e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Kalorijos"
+                value={ingredient.calories}
+                onChange={(e) => handleIngredientChange(index, "calories", e.target.value)}
+              />
+            </div>
+            <div className={styles.nutritionDetails}>
+              <input
+                type="text"
+                placeholder="Baltymai"
+                value={ingredient.nutritionalValue.protein}
+                onChange={(e) => handleIngredientChange(index, "protein", e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Riebalai"
+                value={ingredient.nutritionalValue.fat}
+                onChange={(e) => handleIngredientChange(index, "fat", e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Angliavandeniai"
+                value={ingredient.nutritionalValue.carbs}
+                onChange={(e) => handleIngredientChange(index, "carbs", e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => handleRemoveIngredient(index)}
+              className={styles.removeIngredientButton}
+            >
+              Pašalinti ingredientą
+            </button>
           </div>
         ))}
       </div>
-
-      <label>Ingredientai:</label>
-      <button type="button" onClick={handleAddIngredient} className={styles.addButton}>
-        Pridėti ingredientą
+      <button type="submit" className={styles.submitMealButton}>
+        Pridėti patiekalą
       </button>
-      {ingredients.map((ingredient, index) => (
-        <div key={index} className={styles.ingredientRow}>
-          <input
-            type="text"
-            placeholder="Pavadinimas"
-            value={ingredient.name}
-            onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Kiekis"
-            value={ingredient.quantity}
-            onChange={(e) => handleIngredientChange(index, "quantity", e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Kalorijos"
-            value={ingredient.calories}
-            onChange={(e) => handleIngredientChange(index, "calories", e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Baltymai"
-            value={ingredient.nutritionalValue.protein}
-            onChange={(e) => handleIngredientChange(index, "protein", e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Riebalai"
-            value={ingredient.nutritionalValue.fat}
-            onChange={(e) => handleIngredientChange(index, "fat", e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Angliavandeniai"
-            value={ingredient.nutritionalValue.carbs}
-            onChange={(e) => handleIngredientChange(index, "carbs", e.target.value)}
-          />
-          <button
-            type="button"
-            onClick={() => handleRemoveIngredient(index)}
-            className={styles.removeButton}
-          >
-            Pašalinti
-          </button>
-        </div>
-      ))}
-
-      <button type="submit" className={styles.submitButton}>Pridėti patiekalą</button>
     </form>
   );
 };
 
 export default AddMealForm;
+
+
+
 
 
 

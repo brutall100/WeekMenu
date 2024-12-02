@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"; 
+import { ToastContainer, toast } from "react-toastify";
 import { API_URL } from "../../utils/api";
 import CategoryForm from "../../forms/CategoryForm/CategoryForm";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"; 
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import styles from "./CategoriesPage.module.scss";
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [formVisible, setFormVisible] = useState(false);
   const navigate = useNavigate();
 
   const fetchCategories = async () => {
@@ -32,10 +33,10 @@ const CategoriesPage = () => {
     try {
       await fetch(`${API_URL}/categories/${id}`, { method: "DELETE" });
       setCategories(categories.filter((category) => category._id !== id));
-      toast.success("Category deleted successfully!"); 
+      toast.success("Category deleted successfully!");
     } catch (error) {
       console.error("Error deleting category:", error);
-      toast.error("Failed to delete category!"); 
+      toast.error("Failed to delete category!");
     }
   };
 
@@ -53,10 +54,11 @@ const CategoriesPage = () => {
           )
         );
         setEditingCategory(null);
-        toast.success("Category updated successfully!"); 
+        setFormVisible(false);
+        toast.success("Category updated successfully!");
       } catch (error) {
         console.error("Error updating category:", error);
-        toast.error("Failed to update category!"); 
+        toast.error("Failed to update category!");
       }
     } else {
       try {
@@ -67,10 +69,11 @@ const CategoriesPage = () => {
         });
         const data = await response.json();
         setCategories([...categories, { _id: data.categoryId, ...category }]);
-        toast.success("Category added successfully!"); 
+        setFormVisible(false);
+        toast.success("Category added successfully!");
       } catch (error) {
         console.error("Error adding category:", error);
-        toast.error("Failed to add category!"); 
+        toast.error("Failed to add category!");
       }
     }
   };
@@ -89,13 +92,29 @@ const CategoriesPage = () => {
 
   return (
     <div className={styles.categoriesPage}>
-      <h1>Kategorijos</h1>
+      <div className={styles.infoSection}>
+        <h1>Pasirinkite savo kategoriją</h1>
+        <p>Čia galite pridėti, redaguoti ir ištrinti kategorijas.</p>
+        <p>Spustelėkite ant kategorijos, kad pamatytumėte jos patiekalus.</p>
+        <p>Spustelėkite ant mygtuko "Pridėti kategoriją", kad pridėtumėte naują kategoriją.</p>
+        <button
+          className={styles.toggleFormButton}
+          onClick={() => setFormVisible(!formVisible)}
+        >
+          {formVisible ? "Slėpti formą" : "Pridėkite kategoriją"}
+        </button>
+      </div>
 
-      <CategoryForm
-        initialData={editingCategory}
-        onSubmit={handleSubmit}
-        onCancel={() => setEditingCategory(null)}
-      />
+      {formVisible && (
+        <CategoryForm
+          initialData={editingCategory}
+          onSubmit={handleSubmit}
+          onCancel={() => {
+            setEditingCategory(null);
+            setFormVisible(false);
+          }}
+        />
+      )}
 
       <div className={styles.categoriesGrid}>
         {categories.map((category) => (
@@ -110,6 +129,7 @@ const CategoriesPage = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   setEditingCategory(category);
+                  setFormVisible(true);
                 }}
               >
                 Edit
@@ -143,6 +163,7 @@ const CategoriesPage = () => {
 };
 
 export default CategoriesPage;
+
 
 
 
