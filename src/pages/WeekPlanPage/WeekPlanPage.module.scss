@@ -1,16 +1,15 @@
-/* WeekPlanPage.module.scss */
-
 .categoryPage {
     padding: 20px;
-    background-color: #f9f9f9; /* Light background */
-    min-height: 100vh; /* Ensure it spans the full height */
+    background-color: #c1c3b2;
+    color: #43766c;
+    min-height: 100vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
   
     h1 {
       font-size: 2rem;
-      color: #333; /* Dark text */
+      color: #333; 
       margin-bottom: 20px;
     }
   }
@@ -19,16 +18,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Center spinner vertically */
-    background-color: #ffffff; /* Optional, adds a plain background */
+    height: 100vh; 
+    background-color: #ffffff; 
   }
   
   .dayList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
-    gap: 20px; /* Spacing between cards */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 20px; 
     width: 100%;
-    max-width: 1200px; /* Limit grid width */
+    max-width: 1200px;
     margin-top: 20px;
   }
   
