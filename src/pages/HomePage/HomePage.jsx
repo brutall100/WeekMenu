@@ -38,7 +38,7 @@ const HomePage = () => {
       <div className={styles.hero}>
         <h1>Savaitės Maisto Planas</h1>
         <p>Sistema, leidžianti sudaryti ir valdyti savaitės maisto planą, pritaikytą įvairioms žmonių grupėms.</p>
-        <button onClick={() => setMessage("Pradėkite kurti savo savaitės maisto planą jau dabar!")}>
+        <button onClick={() => setMessage("PS. Užkrovimas vyksta apie 50 sekundžių! 😊")}>
           Prisijungti
         </button>
         <p>{message}</p>
