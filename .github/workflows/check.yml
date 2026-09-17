@@ -1,0 +1,40 @@
+name: Patikra
+
+# Tikrinam kiekvieną push'ą ir kiekvieną PR į main.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+# Jei į tą pačią šaką atkeliauja naujas push'as, senas darbas nutraukiamas –
+# nėra prasmės tikrinti kodo, kurio jau nebėra.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  patikra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Įdiegti Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Priklausomybės
+        run: deno install
+
+      # Formatas, lint ir tipai. Krenta, jei bent vienas failas netvarkingas.
+      - name: Formatas, lint, tipai
+        run: deno task check
+
+      - name: Testai
+        run: deno task test
+
+      # Build'as tikrina tai, ko testai nepagauna: ar Fresh sugeba
+      # surinkti puslapius ir salas į produkcijos versiją.
+      - name: Produkcijos versija
+        run: deno task build
