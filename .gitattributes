@@ -1,0 +1,14 @@
+# Visur LF eilučių pabaigos – ir Windows'e, ir Linux'e.
+# Be šito Windows git'as paverčia failus į CRLF, ir `deno fmt --check`
+# kompiuteryje randa „netvarkingų“ failų, nors CI viskas žalia.
+* text=auto eol=lf
+
+# Dvejetainiai failai – neliečiam.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
