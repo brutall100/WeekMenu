@@ -4,6 +4,7 @@ import { getActivePlan, savePlan } from "@backend/db/repositories/plans.ts";
 import { listMealsByCategory } from "@backend/db/repositories/meals.ts";
 import { swapEntry } from "@backend/services/planner.ts";
 import { AppError } from "@backend/lib/errors.ts";
+import { track } from "@backend/services/analytics.ts";
 import type { MealSlot } from "@shared/types.ts";
 
 /**
@@ -26,6 +27,8 @@ export const handler = define.handlers({
       const candidates = await listMealsByCategory(plan.categoryId);
       const updated = swapEntry(plan, day, slot, candidates);
       await savePlan(updated, false);
+
+      await track(ctx.state.user.id, "patiekalas_keistas");
 
       const entry = updated.entries.find((e) =>
         e.day === day && e.slot === slot

@@ -4,6 +4,7 @@ import { Card, EmptyState, LinkButton } from "../components/ui.tsx";
 import { getActivePlan } from "@backend/db/repositories/plans.ts";
 import { getMeals } from "@backend/db/repositories/meals.ts";
 import { buildShoppingList } from "@backend/services/shopping.ts";
+import { track } from "@backend/services/analytics.ts";
 
 export default define.page(async function ShoppingPage(ctx) {
   const plan = await getActivePlan(ctx.state.user.id);
@@ -21,6 +22,7 @@ export default define.page(async function ShoppingPage(ctx) {
     );
   }
 
+  await track(ctx.state.user.id, "pirkiniai_atidaryti");
   const meals = await getMeals(plan.entries.map((e) => e.mealId));
   const household = ctx.state.user.profile?.household ?? 1;
   const sections = buildShoppingList(plan, meals, household, {

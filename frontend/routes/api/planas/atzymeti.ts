@@ -11,6 +11,7 @@ import {
   weekProgress,
 } from "@backend/services/engagement.ts";
 import { AppError } from "@backend/lib/errors.ts";
+import { track } from "@backend/services/analytics.ts";
 import type { MealSlot } from "@shared/types.ts";
 
 /**
@@ -51,6 +52,7 @@ export const handler = define.handlers({
           emoji: b.emoji,
         }));
         await saveEngagement(engagement);
+        await track(ctx.state.user.id, "pagamino", { uniquePerVisitor: true });
       }
 
       return json({

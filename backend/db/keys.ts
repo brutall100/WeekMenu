@@ -35,4 +35,14 @@ export const keys = {
 
   /** Žymė, kad pradinė duomenų sėkla jau pasėta. */
   seeded: () => ["meta", "seeded"] as const,
+
+  /** Statistika: bendras įvykio skaitliukas nuo pat pradžių. */
+  statTotal: (event: string) => ["stat_total", event] as const,
+  statTotalsPrefix: () => ["stat_total"] as const,
+  /** Statistika: to paties įvykio skaitliukas vienai dienai. */
+  statDay: (date: string, event: string) => ["stat_day", date, event] as const,
+  statDayPrefix: (date: string) => ["stat_day", date] as const,
+  /** Vieno lankytojo kelias: kada pirmą kartą, kada paskutinį, ką pasiekė. */
+  visitor: (userId: string) => ["visitor", userId] as const,
+  visitorsPrefix: () => ["visitor"] as const,
 };

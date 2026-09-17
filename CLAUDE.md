@@ -41,9 +41,11 @@ deno task check    # fmt + lint + tipai
    `.claude/skills/dizaino-sistema/SKILL.md`.
 4. **Svetainė privalo veikti be `ANTHROPIC_API_KEY`.** AI mygtukai tada
    išsijungia su paaiškinimu, bet niekas nelūžta.
-5. **AI kviečiamas tik kai trūksta.** Sugeneruota – įrašoma į KV ir
+5. **Statistika niekada nelaužo puslapio.** `track()` pati gaudo klaidas –
+   matavimo įrankis neturi teisės sugadinti to, ką matuoja.
+6. **AI kviečiamas tik kai trūksta.** Sugeneruota – įrašoma į KV ir
    tarnauja visiems.
-6. **Lietuviškai.** Sąsaja, komentarai, commit'ai.
+7. **Lietuviškai.** Sąsaja, komentarai, commit'ai.
 
 ## Kada kviesti skill'ą ar agentą
 
