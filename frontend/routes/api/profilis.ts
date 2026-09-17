@@ -3,6 +3,7 @@ import { fail, json, readJson } from "../../lib/http.ts";
 import { saveProfile } from "@backend/db/repositories/users.ts";
 import { createPlanForUser } from "@backend/services/planner.ts";
 import { AppError } from "@backend/lib/errors.ts";
+import { track } from "@backend/services/analytics.ts";
 import { MEAL_SLOTS } from "@shared/types.ts";
 import type { MealSlot, Profile } from "@shared/types.ts";
 
@@ -37,6 +38,9 @@ export const handler = define.handlers({
 
       await saveProfile(ctx.state.user.id, profile);
       const plan = await createPlanForUser(ctx.state.user.id, profile);
+      await track(ctx.state.user.id, "anketa_baigta", {
+        uniquePerVisitor: true,
+      });
 
       return json({ ok: true, planId: plan.id, entries: plan.entries.length });
     } catch (error) {

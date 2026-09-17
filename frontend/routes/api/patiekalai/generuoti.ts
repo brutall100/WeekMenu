@@ -8,6 +8,7 @@ import {
   saveMeals,
 } from "@backend/db/repositories/meals.ts";
 import { AppError, NotFoundError } from "@backend/lib/errors.ts";
+import { track } from "@backend/services/analytics.ts";
 
 /**
  * Sugeneruoja naujų patiekalų kategorijai.
@@ -40,6 +41,7 @@ export const handler = define.handlers({
       });
 
       await saveMeals(meals);
+      await track(ctx.state.user.id, "ai_generavimas");
       return json({ ok: true, meals });
     } catch (error) {
       return fail(error);

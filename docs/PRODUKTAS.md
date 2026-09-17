@@ -46,6 +46,11 @@ Rodikliai, kuriuos verta sekti, ir ką kiekvienas iš jų matuoja:
 
 Jei rodiklis nejuda – sprendimas buvo prielaida, ne tiesa.
 
+Visi šie rodikliai matomi `/statistika` skydelyje. Jis rodo ne tik pakopas,
+bet ir **kurioje vietoje prarandam daugiausia žmonių** – matuojant prarastų
+žmonių skaičių, o ne procentą. Procentas mažoje imtyje yra triukšmas:
+prarasti 100 žmonių iš 103 svarbiau nei prarasti 3 iš 3.
+
 ## Ką jau turim
 
 - [x] 10 kategorijų su viešomis taisyklėmis
@@ -57,6 +62,7 @@ Jei rodiklis nejuda – sprendimas buvo prielaida, ne tiesa.
 - [x] Istorijos (socialinis įrodymas)
 - [x] Veikia be AI rakto
 - [x] Tamsi tema, mobilusis, prieinamumas
+- [x] Privatus statistikos skydelis be trečiųjų šalių
 
 ## Ką svarstom toliau
 

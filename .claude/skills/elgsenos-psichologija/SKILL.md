@@ -116,3 +116,8 @@ Rodikliai, kuriuos verta sekti (žr. `docs/PRODUKTAS.md`):
 - vidutinis pakeistų patiekalų skaičius (matuoja 5 principą).
 
 Jei rodiklis nejuda – sprendimas buvo prielaida, ne tiesa. Keičiam.
+
+Visi šie rodikliai jau matuojami: `backend/services/analytics.ts` renka įvykius,
+`/statistika` juos rodo. Prieš siūlant naują elgsenos funkciją **pirma pažiūrėk
+į piltuvėlį** – ten matyti, kurioje vietoje žmonės iškrenta. Funkcija, taisanti
+ne tą pakopą, yra švaistymas.

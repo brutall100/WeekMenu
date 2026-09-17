@@ -2,6 +2,7 @@ import { App, staticFiles } from "fresh";
 import { define, type State } from "./utils.ts";
 import { attachSession, loadSession } from "@backend/services/session.ts";
 import { getEngagement } from "@backend/db/repositories/engagement.ts";
+import { trackVisit } from "@backend/services/analytics.ts";
 import { seed } from "@backend/db/seed.ts";
 
 export const app = new App<State>();
@@ -35,6 +36,13 @@ const session = define.middleware(async (ctx) => {
   ctx.state.user = ctxSession.user;
   ctx.state.isNewUser = ctxSession.isNew;
   ctx.state.engagement = await getEngagement(ctxSession.user.id);
+
+  // Apsilankymą skaičiuojam tik puslapiams: API kvietimai ir pats
+  // statistikos skydelis neturi pripūsti skaičių.
+  const path = ctx.url.pathname;
+  if (!path.startsWith("/api/") && !path.startsWith("/statistika")) {
+    await trackVisit(ctxSession.user.id);
+  }
 
   const res = await ctx.next();
   return attachSession(res, ctxSession, ctx.url);

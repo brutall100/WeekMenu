@@ -98,6 +98,25 @@ Fresh'ui pasakoma, kur ieškoti, per `vite.config.ts`.
 
 ---
 
+## Statistika
+
+Privatus skydelis `/statistika` rodo piltuvėlį: kiek žmonių atėjo, pradėjo
+anketą, gavo planą, pagamino, grįžo kitą dieną ir kitą savaitę.
+
+```bash
+# .env faile
+WEEKMENU_STATS_TOKEN=ilga-atsitiktine-eilute
+```
+
+Tada skydelis pasiekiamas adresu `/statistika?raktas=ilga-atsitiktine-eilute`.
+**Be rakto puslapio nėra** – grąžinamas 404, o ne prisijungimo forma.
+
+Renkam tik tai, kas atsako į klausimą „ar žmonės grįžta": anoniminį ID, kuris
+jau reikalingas planui laikyti, ir datas. Jokio IP, jokios naršyklės, jokių
+trečiųjų šalių. Todėl nereikia nei sausainių banerio, nei sutikimo lango.
+
+---
+
 ## Dokumentacija
 
 - [`docs/ARCHITEKTURA.md`](docs/ARCHITEKTURA.md) – kaip viskas sujungta

@@ -32,6 +32,7 @@ Projekto nustatymuose → **Environment Variables**:
 | `ANTHROPIC_API_KEY` | `sk-ant-...` | Ne. Be jo svetainė veikia, AI mygtukai išjungti. |
 | `WEEKMENU_AI_MODEL` | `claude-opus-5` | Ne |
 | `WEEKMENU_AI_EFFORT` | `medium` | Ne |
+| `WEEKMENU_STATS_TOKEN` | ilga atsitiktinė eilutė | Ne. Be jo `/statistika` grąžina 404. |
 
 ⚠️ **Rakto niekada nerašom į kodą.** `.env` yra `.gitignore` sąraše.
 
@@ -52,6 +53,7 @@ Atidaryk gautą adresą ir pereik:
 - [ ] „Pagaminau“ pakeičia serijos skaičių
 - [ ] `/pirkiniai` rodo sąrašą
 - [ ] neegzistuojantis adresas grąžina 404
+- [ ] `/statistika` be rakto grąžina 404, su teisingu raktu – skydelį
 
 ## Vietinis paleidimas kaip produkcijoje
 
